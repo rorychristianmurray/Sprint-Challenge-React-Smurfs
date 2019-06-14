@@ -1,9 +1,15 @@
+//Libraries
 import React, { Component } from "react";
+import { NavLink, Route, withRouter } from "react-router-dom";
 import axios from "axios";
 
-import "./App.css";
+// Components
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
+import NavBar from "./components/NavBar";
+
+//Styles
+import "./App.css";
 
 class App extends Component {
   constructor(props) {
@@ -46,14 +52,52 @@ class App extends Component {
       });
   };
 
+  // deleteFriend = (e, id) => {
+  //   e.preventDefault();
+  //   axios
+  //     .delete(`http://localhost:5000/friends/${id}`)
+  //     .then(res => this.setState({ friends: res.data}))
+  //     .catch(err => console.log(err))
+  // }
+
+  deleteSmurf = (event, id) => {
+    event.preventDefault();
+    console.log("deleteSmurf event", event);
+    axios
+      .delete(`http://localhost:3333/smurfs/${id}`)
+      .then(response => {
+        console.log("DELETE response.data", response.data);
+        this.setState({
+          smurfs: response.data
+        });
+      })
+      .catch(error => {
+        console.log("App deleteSmurf error", error);
+      });
+  };
+
   render() {
     return (
       <div className="App">
-        <SmurfForm addSmurf={this.addSmurf} />
-        <Smurfs smurfs={this.state.smurfs} />
+        <NavBar />
+        <Route
+          exact
+          path="/smurfs"
+          render={props => (
+            <Smurfs
+              {...props}
+              smurfs={this.state.smurfs}
+              deleteSmurf={this.deleteSmurf}
+            />
+          )}
+        />
+        <Route
+          path="/add"
+          render={props => <SmurfForm {...props} addSmurf={this.addSmurf} />}
+        />
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
