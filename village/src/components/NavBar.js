@@ -12,7 +12,7 @@ const NavBar = () => {
         See Smurfs
       </NavLink>
       <NavLink to="/add" className="nav-link">
-        Add Smurf
+        Edit Smurf
       </NavLink>
     </div>
   );

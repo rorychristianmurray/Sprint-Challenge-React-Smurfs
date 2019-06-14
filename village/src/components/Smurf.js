@@ -9,7 +9,6 @@ const Smurf = props => {
       <button onClick={event => props.deleteSmurf(event, props.smurf.id)}>
         Ostracize from Society
       </button>
-      <button>Reeducate Smurf</button>
     </div>
   );
 };
